@@ -6,3 +6,4 @@ target/*
 .vscode/*
 out/*
 logs.md
+prompt_result.txt
