@@ -8,17 +8,17 @@ import javafx.event.ActionEvent;
 
 import java.util.List;
 
+import javafx.scene.control.Alert.AlertType;
 
 import data.Barang;
 import data.Manager;
 
-public class MainController {
+public class deleteController {
     
     @FXML
     private void initialize() throws Exception{
         // inisialisasi
         barangToTable();
-        statistikBarang();
     }
 
     public void barangToTable() throws Exception{
@@ -29,33 +29,9 @@ public class MainController {
         tableBarang.refresh();
     }
 
-    public void statistikBarang() throws Exception{
-        int barangTersedia = 0 ;
-        int barangHabis = 0;
-        int stockTotal = 0;
-        List<Barang> list = Manager.load(Manager.filePath);
-
-        for (Barang b : list) {
-            if (b.status) {
-                barangTersedia++;
-                stockTotal += b.stok;
-
-            }else{
-                barangHabis++;
-            }
-        }        
-        lblTersedia.setText(String.valueOf(barangTersedia));
-        lblHabis.setText(String.valueOf(barangHabis));
-        lblTotal.setText(String.valueOf(stockTotal));
-    }
-
-
     @FXML private Label pageTitle;
     @FXML private TableView<Barang> tableBarang;
-    @FXML private Label lblTersedia;
-    @FXML private Label lblHabis;
-    @FXML private Label lblTotal;
-
+    @FXML private TextField namaBarangInput;
 
     @FXML
     private void showDashboard(ActionEvent event) throws Exception { SwitchHelper.switchScene("Main.fxml", event); }
@@ -66,5 +42,26 @@ public class MainController {
     @FXML
     private void showDelete(ActionEvent event) throws Exception { SwitchHelper.switchScene("delete.fxml", event); }
     
+    @FXML
 
+    public void deleteBarang() throws Exception {
+        String nama = namaBarangInput.getText();
+        if (nama.isEmpty()) {
+            showAlert(AlertType.ERROR, "Error", "Masukkan nama barang.");
+            return;
+        }
+
+        Manager.delete(nama);
+        showAlert(AlertType.INFORMATION, "Sukses", "Barang dihapus.");
+        barangToTable();
+    }
+
+
+    private void showAlert(AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

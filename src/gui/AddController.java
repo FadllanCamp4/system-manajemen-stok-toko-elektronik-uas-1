@@ -86,7 +86,7 @@ public class AddController {
     private void showAdd(ActionEvent event) throws Exception { SwitchHelper.switchScene("add.fxml", event); }
     
     @FXML
-    private void showDelete(ActionEvent event) throws Exception { SwitchHelper.switchScene("Main.fxml", event); }
+    private void showDelete(ActionEvent event) throws Exception { SwitchHelper.switchScene("delete.fxml", event); }
     
     @FXML
 
