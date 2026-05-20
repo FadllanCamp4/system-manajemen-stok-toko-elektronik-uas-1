@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public static Scanner input = new Scanner(System.in);
 
-
-
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(
@@ -29,7 +27,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-        
+        // Load data sekali di awal
+        Manager.refreshList();
         int pilihan = 0;
 
         launch(args);
@@ -42,14 +41,14 @@ public class Main extends Application {
             System.out.println("4. Update Barang");
             System.out.println("5. Cari Barang");
             System.out.println("6. Keluar");
-            System.out.print("Pilih menu (1-5): ");
+            System.out.print("Pilih menu (1-6): ");
 
             pilihan = input.nextInt();
             input.nextLine();
 
             switch (pilihan) {
                 case 1:
-                    Manager.cetak(Manager.load(Manager.filePath));
+                    tampilkanBarangMenu();
                     break;
 
                 case 2:
@@ -85,8 +84,6 @@ public class Main extends Application {
     }
 
     static void addMenu() throws Exception {
-        List<Barang> list = Manager.load(Manager.filePath);
-
         System.out.print("Masukkan nama barang: ");
         String nama = input.nextLine();
 
@@ -99,14 +96,18 @@ public class Main extends Application {
         int pil = Integer.parseInt(input.nextLine());
 
         kategoriBarang kategori = kategoriBarang.dariNomor(pil);
+        if (kategori == null) {
+            System.out.println("[!] Kategori tidak valid, diubah menjadi lainnya");
+            kategori = kategoriBarang.lainnya;
+        }
 
         System.out.print("Apakah barang tersedia? (true/false): ");
         boolean status = Boolean.parseBoolean(input.nextLine().trim());
 
-        list.add(new Barang(Manager.getNextId(list), nama, stok, kategori, status));
+        Manager.list.add(new Barang(Manager.getNextId(Manager.list), nama, stok, kategori, status));
 
-        Manager.save(list);
-        Manager.cetak(list);
+        Manager.save(Manager.list);
+        Manager.cetakTersedia(Manager.list);
     }
 
     static void menuCari() throws Exception {
@@ -118,25 +119,22 @@ public class Main extends Application {
         input.nextLine();
 
         if (pilih == 1) {
-            cariNama();
+            System.out.print("Masukkan nama barang: ");
+            String keyword = input.nextLine();
+            Barang data =  Manager.linearSearchNama(keyword);
+
+            if (data == null) {
+                System.out.println("Tidak ditemukan");
+            } else {
+                Manager.cetak(data);
+            }
+            
         } else if (pilih == 2) {
             cariId();
         }
 
     }
 
-    static void cariNama() throws Exception {
-        System.out.print("Masukkan nama: ");
-        String nama = input.nextLine();
-
-        List<Barang> hasil = Manager.linearSearchNama(nama);
-
-        if (hasil.isEmpty()) {
-            System.out.println("Tidak ditemukan");
-        } else {
-            Manager.cetak(hasil);
-        }
-    }
 
     static void cariId() throws Exception {
         System.out.print("Masukkan ID: ");
@@ -151,4 +149,64 @@ public class Main extends Application {
             Manager.cetak(b);
         }
     }
+
+    static void tampilKategoriTertentu(){
+        System.out.println("Masukkan kategori barang:");
+        kategoriBarang.showKategori();
+        System.out.print("Pilihan kategori: ");
+        int pil = Integer.parseInt(input.nextLine());
+        kategoriBarang kategori = kategoriBarang.dariNomor(pil);
+        if (kategori == null) {
+            System.out.println("[!] Kategori tidak valid, diubah menjadi lainnya");
+            kategori = kategoriBarang.lainnya;
+        }
+        for (Barang b : Manager.list) {
+            if (b.kategori == kategori) {
+                Manager.cetak(b);
+            }
+        }
+    }
+
+    static void tampilkanBarangMenu() throws Exception{
+        System.out.println("\n=== Tampilkan Barang ===");
+        System.out.println("1. Tampilkan Barang tersedia (ID ascending)");
+        System.out.println("2. Tampilkan Barang tersedia (ID descending)");
+        System.out.println("3. Tampilkan Barang Semua Barang (ID ascending)");
+        System.out.println("4. Tampilkan Barang Semua Barang (ID descending)");
+        System.out.println("5. Kembali ke Menu Utama");
+        System.out.print("Pilih: ");
+
+        int pilihan = input.nextInt();
+        input.nextLine();
+
+        switch (pilihan) {
+            case 1:
+                Manager.SortByIdASC();
+                Manager.cetakTersedia(Manager.list);
+                break;
+            case 2:
+                Manager.SortByIdDESC();
+                Manager.cetakTersedia(Manager.list);
+                break;
+            case 3:
+                Manager.SortByIdASC();
+                Manager.cetakSemua(Manager.list);
+                break;
+            case 4:
+                Manager.SortByIdDESC();
+                Manager.cetakSemua(Manager.list);
+                break;
+            case 5:
+                tampilKategoriTertentu();
+                break;
+            case 6:
+                break;
+            default:
+                System.out.println("Pilihan tidak valid.");
+                break;
+        }
+    }
+
+    
+
 }
