@@ -1,8 +1,5 @@
 
 
-import data.Barang;
-import data.Manager;
-import data.kategoriBarang;
 import java.util.*;
 
 import javafx.application.Application;
@@ -10,12 +7,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import services.Barang;
+import services.Manager;
+import services.kategoriBarang;
+import services.exportToPdf;
 
 public class Main extends Application {
     public static Scanner input = new Scanner(System.in);
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Suppress known JavaFX 26 bug: ComboBox internal ListView
+        // throws IndexOutOfBoundsException on clearAndSelect
+        Thread.currentThread().setUncaughtExceptionHandler((t, e) -> {
+            if (e instanceof IndexOutOfBoundsException
+                && e.getStackTrace().length > 0
+                && e.getStackTrace()[0].getClassName().contains("ReadOnlyUnbackedObservableList")) {
+                // Known JavaFX bug, ignore silently
+                return;
+            }
+            // Print other exceptions normally
+            e.printStackTrace();
+        });
+
         FXMLLoader loader = new FXMLLoader(
             getClass().getResource("/gui/Main.fxml")
         );
@@ -28,7 +42,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws Exception {
         // Load data sekali di awal
-        Manager.refreshList();
+        Manager.load();
         int pilihan = 0;
 
         launch(args);
@@ -73,6 +87,10 @@ public class Main extends Application {
                     break;
 
                 case 6:
+                    exportToPdf pdf = new exportToPdf();
+                    pdf.exportBarang(Manager.list);
+                    break;
+                case 7:
                     System.out.println("Program selesai.");
                     break;
 
@@ -185,21 +203,13 @@ public class Main extends Application {
                 Manager.cetakTersedia(Manager.list);
                 break;
             case 2:
-                Manager.SortByIdDESC();
-                Manager.cetakTersedia(Manager.list);
-                break;
-            case 3:
                 Manager.SortByIdASC();
                 Manager.cetakSemua(Manager.list);
                 break;
-            case 4:
-                Manager.SortByIdDESC();
-                Manager.cetakSemua(Manager.list);
-                break;
-            case 5:
+            case 3:
                 tampilKategoriTertentu();
                 break;
-            case 6:
+            case 4:
                 break;
             default:
                 System.out.println("Pilihan tidak valid.");

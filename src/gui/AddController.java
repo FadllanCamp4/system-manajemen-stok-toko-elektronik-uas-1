@@ -1,38 +1,59 @@
 package gui;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.List;
 
 import javafx.scene.control.Alert.AlertType;
-
-
-import data.kategoriBarang;
-import data.Barang;
-import data.Manager;
+import services.Barang;
+import services.Manager;
+import services.kategoriBarang;
 
 public class AddController {
-    
+
     @FXML
-    private void initialize() throws Exception{
+    private void initialize() throws Exception {
         // inisialisasi
         enumKategoriInput.getItems().setAll(
-            java.util.Arrays.stream(kategoriBarang.values())
-                .map(Enum::name)
-                .toList()
-        );
-        barangToTable();
+                java.util.Arrays.stream(kategoriBarang.values())
+                        .map(Enum::name)
+                        .toList());
+        Manager.load();
+        tampilkanBarang();
     }
 
-    public void barangToTable() throws Exception{
-        List<Barang> list = Manager.load(Manager.filePath);
-        ObservableList<Barang> data = FXCollections.observableArrayList(list);
-        tableBarang.setItems(data);
-        tableBarang.refresh();
+    public void tampilkanBarang() throws Exception {
+        Manager.load();
+        tampilkanBarang(Manager.list);
+    }
+
+    private void tampilkanBarang(List<Barang> daftar) {
+
+        objectContainer.getChildren().clear();
+
+        for (Barang barang : daftar) {
+
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("objectElement.fxml"));
+
+                Parent item = loader.load();
+
+                ItemBarangController controller = loader.getController();
+
+                controller.setData(barang);
+
+                objectContainer.getChildren().add(item);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
@@ -50,15 +71,14 @@ public class AddController {
             int stokInt = Integer.parseInt(jumlahStr);
             kategoriBarang kategori = kategoriBarang.valueOf(kategoriStr);
 
-            List<Barang> currentList = Manager.load(Manager.filePath);
-            int nextId = Manager.getNextId(currentList);
+            int nextId = Manager.getNextId(Manager.list);
 
             Barang barang = new Barang(nextId, nama, stokInt, kategori, true);
             Manager.add(barang);
 
             showAlert(AlertType.INFORMATION, "Sukses", "Data berhasil ditambahkan.");
-            barangToTable(); // Refresh table
-            
+            tampilkanBarang(Manager.list);
+
             // Clear inputs
             namaBarangInput.clear();
             jumlahBarangInput.clear();
@@ -70,26 +90,33 @@ public class AddController {
         }
     }
 
-
-
-    @FXML private Label pageTitle;
-    @FXML private TableView<Barang> tableBarang;
-    @FXML private TextField namaBarangInput;
-    @FXML private TextField jumlahBarangInput;
-    @FXML private ComboBox<String> enumKategoriInput;
-    @FXML private TextField stockInput;
+    @FXML
+    private Label pageTitle;
+    @FXML
+    private TableView<Barang> tableBarang;
+    @FXML
+    private TextField namaBarangInput;
+    @FXML
+    private TextField jumlahBarangInput;
+    @FXML
+    private ComboBox<String> enumKategoriInput;
+    @FXML
+    private VBox objectContainer;
 
     @FXML
-    private void showDashboard(ActionEvent event) throws Exception { SwitchHelper.switchScene("Main.fxml", event); }
+    private void showDashboard(ActionEvent event) throws Exception {
+        SwitchHelper.switchScene("Main.fxml", event);
+    }
 
     @FXML
-    private void showAdd(ActionEvent event) throws Exception { SwitchHelper.switchScene("add.fxml", event); }
-    
-    @FXML
-    private void showDelete(ActionEvent event) throws Exception { SwitchHelper.switchScene("delete.fxml", event); }
-    
-    @FXML
+    private void showAdd(ActionEvent event) throws Exception {
+        SwitchHelper.switchScene("add.fxml", event);
+    }
 
+    @FXML
+    private void showDelete(ActionEvent event) throws Exception {
+        SwitchHelper.switchScene("delete.fxml", event);
+    }
 
     private void showAlert(AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);

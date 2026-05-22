@@ -1,4 +1,4 @@
-package data;
+package services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,14 +15,11 @@ import java.util.Scanner;
 public class Manager {
 
     public static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    static Path path = Paths.get(System.getProperty("user.dir"), "src/resources/data.json");
+    static Path path = Paths.get(System.getProperty("user.dir"), "src/data/data.json");
     public static String filePath = path.toString();
 
     public static List<Barang> list = new ArrayList<>();
 
-    public static void refreshList() throws Exception {
-        list = load(filePath);
-    }
 
     public static void save(List<Barang> barang) throws IOException {
         try (Writer writer = new FileWriter(filePath)) {
@@ -31,8 +28,8 @@ public class Manager {
 
     }
 
-    public static List<Barang> load(String filename) throws Exception {
-        File file = new File(filename);
+    public static List<Barang> load() throws Exception {
+        File file = new File(filePath);
         if (!file.exists()) {
             return new ArrayList<>();
         }
@@ -48,7 +45,7 @@ public class Manager {
 
     public static void add(Barang barang) throws Exception {
         for (Barang b : list) {
-            if (b.nama.equals(barang.nama) || b.kategori.equals(barang.kategori)) {
+            if (b.nama.equalsIgnoreCase(barang.nama)) {
                 System.out.println("Barang sudah ada");
                 return;
             }
@@ -242,6 +239,18 @@ public class Manager {
         return null;
     }
 
+    public static List<Barang> searchByKategori(String kategori) throws Exception{
+        list = load();
+        List<Barang> hasil = new ArrayList<>();
+
+        for (Barang b : list) {
+            if (b.kategori.name().equalsIgnoreCase(kategori)) {
+                hasil.add(b);
+            }
+        }
+        return hasil;
+    }
+
     // ==== SORTING ====
 
     // Bubble Sort berdasarkan ID (Ascending)
@@ -265,29 +274,8 @@ public class Manager {
         }
     }
     
-    // bubble sort berdasarkan ID (descending)
-    public static void SortByIdDESC() {
-        int n = list.size();
-        boolean swapped;
-
-        for (int i = 0; i < n - 1; i++) {
-            swapped = false;
-            for (int j = 0; j < n - i - 1; j++) {
-                if (list.get(j).id < list.get(j + 1).id) {
-                    Barang temp = list.get(j);
-                    list.set(j, list.get(j + 1));
-                    list.set(j + 1, temp);
-                    swapped = true;
-                }
-            }
-            // Optimasi
-            if (!swapped)
-                break;
-        }
-    }
-
     // Selection Sort berdasarkan Nama (Ascending A-Z)
-    public static void selectionSortByNama() throws Exception {
+    public static void selectionSortByNama() {
         int n = list.size();
         
         for (int i = 0; i < n - 1; i++) {
