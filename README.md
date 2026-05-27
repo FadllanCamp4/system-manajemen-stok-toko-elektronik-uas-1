@@ -2,18 +2,26 @@
 
 Aplikasi **Sistem Manajemen Stok Toko Elektronik** adalah sebuah program Command Line Interface (CLI) berbasis Java yang dirancang untuk membantu toko elektronik dalam mengelola data persediaan barang (stok) secara efisien. Aplikasi ini memungkinkan pengguna untuk mendata barang masuk, melihat stok saat ini, serta menyimpan semua perubahan data secara permanen menggunakan format JSON.
 
+## Tujuan Project
+
+Project ini dibuat untuk:
+- Membantu pengelolaan stok barang toko elektronik
+- Mengurangi kesalahan pencatatan manual
+- Mempermudah monitoring persediaan barang
+- Menerapkan konsep pemrograman Java dalam studi kasus nyata
+  
 ## 🚀 Fitur
 
-**Fitur Saat Ini (Tersedia):**
 - **Menambah Barang Baru:** Menginput nama barang, stok awal, kategori (misal: Elektronik, Aksesoris), dan status ketersediaan.
 - **Melihat Daftar Barang:** Menampilkan semua data barang beserta jumlah stoknya.
-- **Penyimpanan Permanen (JSON):** Data otomatis disimpan ke dalam file `data.json` dan dimuat kembali saat aplikasi dijalankan, sehingga data tidak hilang.
-
-**Fitur Akan Datang (Roadmap):**
+- **Edit data barang:** Dapat merubah stok,harga dan kategori barang.
 - **Update Stok Barang:** Mengubah atau memperbarui jumlah stok barang yang sudah ada.
 - **Hapus Barang:** Menghapus data barang dari sistem jika barang sudah tidak dijual.
-- **Pencarian & Filter:** Mencari barang berdasarkan nama atau memfilter berdasarkan kategori tertentu.
+- **Cari berdasarkan Nama, ID/kode dan kategori barang:** Mencari data barang sesuai nama,id/kode dan kategori yang kita mau.
+- **Sorting berdasarkan Nama, ID/kode dan jumlah stok terbanyak:** Mensorting data barang sesuai nama,id/kode dan jumlah stok terbanyak.
 - **Antarmuka Interaktif (Menu):** Membuat menu CLI yang lebih interaktif agar pengguna dapat memilih aksi (Tambah, Lihat, Update, Hapus, Keluar) tanpa harus menjalankan program berulang kali.
+- **Penyimpanan Permanen (JSON):** Data otomatis disimpan ke dalam file `data.json` dan dimuat kembali saat aplikasi dijalankan, sehingga data tidak hilang.
+-**Hasil pencarian berupa file:** Membuat file dari hasil yang kita cari untuk mendukung pengambilan keputusan.
 
 ## 💻 Tech Stack
 
