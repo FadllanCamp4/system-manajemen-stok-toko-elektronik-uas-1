@@ -21,7 +21,7 @@ Project ini dibuat untuk:
 - **Sorting berdasarkan Nama, ID/kode dan jumlah stok terbanyak:** Mensorting data barang sesuai nama,id/kode dan jumlah stok terbanyak.
 - **Antarmuka Interaktif (Menu):** Membuat menu CLI yang lebih interaktif agar pengguna dapat memilih aksi (Tambah, Lihat, Update, Hapus, Keluar) tanpa harus menjalankan program berulang kali.
 - **Penyimpanan Permanen (JSON):** Data otomatis disimpan ke dalam file `data.json` dan dimuat kembali saat aplikasi dijalankan, sehingga data tidak hilang.
--**Hasil pencarian berupa file:** Membuat file dari hasil yang kita cari untuk mendukung pengambilan keputusan.
+- **Hasil pencarian berupa file:** Membuat file dari hasil yang kita cari untuk mendukung pengambilan keputusan.
 
 ## 💻 Tech Stack
 
