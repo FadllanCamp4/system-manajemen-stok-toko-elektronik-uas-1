@@ -61,12 +61,29 @@ src/
 
 ## 🛠️ Cara Run
 
-1. **Download dan Install Java** Sebelum menjalankan project, pastikan Java sudah terinstall di laptop.
-2. **Clone Repository GitHub**
-3. **Masuk ke Folder Project**
-4. **Masuk ke Folder Source Code**
-5. **Compile Program Java**
-6. **Jalankan Program**
+1. **Download dan Install Java** Sebelum menjalankan project, pastikan Java sudah terinstall di laptop.\
+2. **Download Library** [download disini](https://repo1.maven.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2.jar) [download disini](https://itextpdf.com/resources/api-documentation/itext-5-java) [download disini](https://gluonhq.com/products/javafx/)
+3. install library di folder project
+```text
+system-manajemen-stok-toko-elektronik-uas/
+src/
+├── Main.java
+├── data/
+│   └── data.json
+├── services/
+│   ├── Barang.java
+│   ├── kategoriBarang.java
+│   ├── Manager.java
+│   └── exportToPdf.java
+├── gui/ 
+├── lib/ <-- extract file jar kedalam folder ini
+├── repots/ 
+```
+
+4. **Masuk ke Folder Project**
+5. **Masuk ke Folder Source Code**
+6. **Compile Program Java**
+7. **Jalankan Program**
    
 ## 📊 Contoh Data
 
