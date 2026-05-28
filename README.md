@@ -26,18 +26,19 @@ Project ini dibuat untuk:
 ## 💻 Tech Stack
 
 - **Bahasa Pemrograman:** Java (Target & Source minimum versi 21)
-- **Dependency Management & Build Tool:** Maven
 - **Penyimpanan Data:** JSON (JavaScript Object Notation)
 - **Library Tambahan:** 
-  - `Gson` by Google (versi 2.10.1) untuk membaca (parsing) dan menulis format JSON dengan mudah.
+  - `Gson` by Google (versi 2.10.1) untuk membaca (parsing) dan menulis format JSON dengan mudah. [download disini](https://repo1.maven.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2.jar)
+  - `itextpdf`untuk membuat file .pdf [download disini](https://itextpdf.com/resources/api-documentation/itext-5-java)
+  - `javaFX` untuk membuat tampilan GUI [download disini](https://gluonhq.com/products/javafx/)
 
 ## Tech Stack
 
-- ** Java :** Bahasa pemrograman utama untuk membangun sistem.
-- ** OOP (Object-Oriented Programming) :** Konsep pemrograman berbasis objek.
-- ** VS Code / IntelliJ IDEA :** Code editor / IDE.
-- ** Git & GitHub :** Version control dan kolaborasi project.
-- ** Swing / JavaFX :** tampilan GUI.
+- **Java :** Bahasa pemrograman utama untuk membangun sistem.
+- **OOP (Object-Oriented Programming) :** Konsep pemrograman berbasis objek.
+- **VS Code / IntelliJ IDEA :** Code editor / IDE.
+- **Git & GitHub :** Version control dan kolaborasi project.
+- **Swing / JavaFX :** tampilan GUI.
 
 
 ## 📁 Struktur Project
